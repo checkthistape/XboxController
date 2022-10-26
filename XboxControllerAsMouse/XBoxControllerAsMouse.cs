@@ -1,4 +1,4 @@
-﻿using System.Threading;
+using System.Threading;
 using WindowsInput;
 using SharpDX.XInput;
 using System.Diagnostics;
@@ -39,7 +39,8 @@ namespace XBoxAsMouse
 			RightButton(state);
 		}
 
-		/*private */public void RightButton(State state)
+		/*private */
+		public void RightButton(State state)
 		{
 
 
@@ -47,18 +48,18 @@ namespace XBoxAsMouse
 
 			var isBDown = state.Gamepad.Buttons.HasFlag(GamepadButtonFlags.B);
 
-			
+
 
 
 
 			if (isBDown && !_wasBDown) System.Console.WriteLine("DOWN");//_mouseSimulator.RightButtonDown();
-            if (!isBDown && _wasBDown) System.Console.WriteLine("DOWN");//_mouseSimulator.RightButtonUp();
-            _wasBDown = isBDown;
+			if (!isBDown && _wasBDown) System.Console.WriteLine("DOWN");//_mouseSimulator.RightButtonUp();
+			_wasBDown = isBDown;
 			/*while()
 			{
 				System.Console.WriteLine("DOWN");
 			}*/
-			
+
 		}
 
 		private void LeftButton(State state)
@@ -83,8 +84,60 @@ namespace XBoxAsMouse
 
 			var x = state.Gamepad.LeftThumbX / MovementDivider;
 			var y = state.Gamepad.LeftThumbY / MovementDivider;
-			//System.Console.WriteLine($"{x} {y}");
-			_mouseSimulator.MoveMouseBy(x, -y);
+
+			System.Console.WriteLine($"{x} {y}");
+
+			//Stick to up
+			while (x >= -3 && x <= 3 && y > 0)
+			{
+				System.Console.WriteLine(" UP \n");
+				if (y != -1)
+				{
+					break;
+				}
+
+				/*if (x == 0 && y == 0)
+                {
+                    break;
+                }*/
+			}
+			//Stick to down
+			while (x >= -3 && x <= 3 && y < 0)
+			{
+				System.Console.WriteLine(" DOWN \n");
+				if (y != 1)
+				{
+					break;
+				}
+				/*
+                if (x == 0 && y == 0)
+                {
+                    break;
+                }*/
+			}
+
+
+			while (y >= -3 && y <= 3 && x < 0)
+			{
+				System.Console.WriteLine(" LEFT \n");
+				//if (x!= -1)
+				if (x < 0 && y <= 3 && y >= -3)
+				{
+					break;
+				}
+				if (x == 0 && y == 0)
+				{
+					break;
+				}
+
+			}
+
+			
+
+
+				//_mouseSimulator.MoveMouseBy(x, -y);
+
+			
 		}
 	}
 }
